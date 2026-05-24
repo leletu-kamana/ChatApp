@@ -9,9 +9,13 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main", "Part2-SendMessages" ]
+    branches: 
+        - "main" 
+        - "Part2-SendMessages" 
   pull_request:
-    branches: [ "main", "Part2-SendMessages" ]
+    branches: 
+        - "main" 
+        - "Part2-SendMessages" 
 
 jobs:
   build:
