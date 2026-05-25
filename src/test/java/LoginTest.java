@@ -97,7 +97,7 @@ public class LoginTest {
 
     @Test
     public void testLoginSuccess() {
-        Login user = nLogin("kyl_1", "Password@1", "+27838996876", "Kyle", "Smith");
+        Login user = new Login("kyl_1", "Password@1", "+27838996876", "Kyle", "Smith");
 
          boolean result = user.loginUser("kyl_1", "Password@1"); 
     }
