@@ -84,10 +84,10 @@ public class Message {
     public boolean checkMessageID() {
         // validates if the ID lenght is 10 chars or less.
         if (messageID.length() == 10) {
-            return true;
+              return true;
         } else {
             return false;
-        }
+        } 
     }
     
     //====================================
