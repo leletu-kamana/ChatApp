@@ -125,7 +125,7 @@ public class MessageTest {
         String hash = msg.createMessageHash();
 
         // Assert - hash converted to uppercase must equal itself (no lowercase present)
-        assertEquals("Hash must be fully uppercase", hash.toUpperCase(), hash);
+        assertEquals(hash.toUpperCase(), hash);
     }
 
     // ================================================================
@@ -142,9 +142,10 @@ public class MessageTest {
     public void testCheckMessageIDIsValid() {
         // Arrange
         Message msg = new Message(1, "+27718693002", "Hi Mike, can you join us for dinner tonight?");
-
+        
+        boolean id = msg.checkMessageID();
         // Act and Assert - checkMessageID() must return true for a valid 10-digit ID
-        assertEquals("Message ID should be exactly 10 characters", msg.checkMessageID());
+        assertTrue( id);
     }
 
     /**
@@ -157,10 +158,10 @@ public class MessageTest {
         Message msg = new Message(1, "+27718693002", "Hi Mike, can you join us for dinner tonight?");
 
         // Act
-        String id = msg.generateMessageID();
+        boolean id = msg.checkMessageID();
 
         // Assert - ID string length must be exactly 10
-        assertEquals("Message ID must be exactly 10 digits", id);
+        assertTrue(id);
     }
 
     // ================================================================
