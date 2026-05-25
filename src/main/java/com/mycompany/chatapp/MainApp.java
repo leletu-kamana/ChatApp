@@ -26,7 +26,7 @@ public class MainApp {
         String lastName;
         
         System.out.println("========================================================");
-        System.out.println("                WELCOM TO QUICKCHAT");
+        System.out.println("                WELCOME TO QUICKCHAT");
         System.out.println("========================================================");
         //--- REGISTRATION SECTION ---
         System.out.println("=== REGISTER ===");
