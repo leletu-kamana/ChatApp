@@ -218,9 +218,9 @@ public class MainApp {
                                 // Display the full message details in the required order:
                                 // Message ID, Message Hash, Recipient, Message text.
                                 msg.printMessageDetails();
-                            }
-                            
+                            }   
                         }
+                        System.out.println("Total messages processed: " + numMessages);
                         break;
 
                     case 2:
