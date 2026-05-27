@@ -15,7 +15,6 @@ on:
   pull_request:
     branches: 
         - "main" 
-        - "Part2-SendMessages" 
 
 jobs:
   build:
