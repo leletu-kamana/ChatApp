@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
 import com.mycompany.chatapp.Message;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,7 +110,7 @@ public class MessageTest {
         String hash = msg.createMessageHash();
 
         // Assert - the hash must end with the deterministic portion ":1:HITONIGHT"
-        assertTrue(hash.endsWith(hash));
+        assertTrue(hash.endsWith(":1:HITONIGHT?"));
     }
 
     /**
@@ -217,5 +218,204 @@ public class MessageTest {
 
         // Assert - verify the exact string the POE requires for Store
         assertEquals(expected, "Message successfully stored.");
+    }
+    
+    // =====================================================
+    // PART 3 TEST 1
+    // Verify sentMessages array is populated correctly
+    // =====================================================
+
+    @Test
+    public void testSentMessagesArrayPopulated() {
+
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Populate the sent messages array with test message contents
+        Message.getSentMessages().add("Did you get the cake?");
+        Message.getSentMessages().add("It is dinner time!");
+
+        // Assert that the array correctly contains the first added message
+        assertTrue(
+                Message.getSentMessages().contains("Did you get the cake?")
+        );
+
+        // Assert that the array correctly contains the second added message
+        assertTrue(
+                Message.getSentMessages().contains("It is dinner time!")
+        );
+    }
+
+    // =====================================================
+    // PART 3 TEST 2
+    // Display longest stored message
+    // =====================================================
+
+    @Test
+    public void testDisplayLongestMessage() {
+
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Construct the first JSON object representing a shorter message
+        JSONObject msg1 = new JSONObject();
+        msg1.put("MessageID", "1000000001");
+        msg1.put("Recipient", "+27834557896");
+        msg1.put("Message", "Did you get the cake?");
+        msg1.put("Hash", "12:1:DIDCAKE");
+
+        // Construct the second JSON object representing a significantly longer message
+        JSONObject msg2 = new JSONObject();
+        msg2.put("MessageID", "1000000002");
+        msg2.put("Recipient", "+27838884567");
+        msg2.put("Message",
+                "Where are you? You are late! I have asked you to be on time.");
+        msg2.put("Hash", "34:2:WHEREONTIME");
+
+        // Add both JSON message objects to the application's stored message list
+        Message.getStoredMessageObjects().add(msg1);
+        Message.getStoredMessageObjects().add(msg2);
+
+        // Invoke the method under test to retrieve the longest message string
+        String result = Message.displayLongestMessage();
+
+        // Assert that the returned string contains the content of the longer message (msg2)
+        assertTrue(
+                result.contains(
+                        "Where are you? You are late! I have asked you to be on time.")
+        );
+    }
+
+    // =====================================================
+    // PART 3 TEST 3
+    // Search by Message ID
+    // =====================================================
+
+    @Test
+    public void testSearchByMessageID() {
+
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Initialize a new JSON object for a single message
+        JSONObject msg = new JSONObject();
+
+        msg.put("MessageID", "0838884567");
+        msg.put("Recipient", "+27838884567");
+        msg.put("Message", "It is dinner time!");
+        msg.put("Hash", "34:4:ITTIME");
+
+        // Add the message object to the internal storage array
+        Message.getStoredMessageObjects().add(msg);
+
+        // Query the database/storage specifically using the targeted Message ID
+        String result =
+                Message.searchByMessageID("0838884567");
+
+        // Verify that the search result successfully returns the text payload of that message
+        assertTrue(result.contains("It is dinner time!"));
+    }
+
+    // =====================================================
+    // PART 3 TEST 4
+    // Search by Recipient
+    // =====================================================
+
+    @Test
+    public void testSearchByRecipient() {
+
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Create the first message object designated for a specific recipient
+        JSONObject msg1 = new JSONObject();
+        msg1.put("MessageID", "1111111111");
+        msg1.put("Recipient", "+27838884567");
+        msg1.put("Message",
+                "Where are you? You are late! I have asked you to be on time.");
+        msg1.put("Hash", "12:2:WHEREONTIME");
+
+        // Create a second message object designated for the exact same recipient
+        JSONObject msg2 = new JSONObject();
+        msg2.put("MessageID", "2222222222");
+        msg2.put("Recipient", "+27838884567");
+        msg2.put("Message",
+                "Ok, I am leaving without you.");
+        msg2.put("Hash", "22:5:OKYOU");
+
+        // Store both mock message records into the system
+        Message.getStoredMessageObjects().add(msg1);
+        Message.getStoredMessageObjects().add(msg2);
+
+        // Perform a lookup filtering all stored items by the recipient's phone number
+        String result =
+                Message.searchByRecipient("+27838884567");
+
+        // Validate that the returned search results include the content from both matching messages
+        assertTrue(result.contains("Where are you?"));
+        assertTrue(result.contains("Ok, I am leaving without you."));
+    }
+
+    // =====================================================
+    // PART 3 TEST 5
+    // Delete by Message Hash
+    // =====================================================
+
+    @Test
+    public void testDeleteByMessageHash() {
+
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Set up a mock JSON message object to be deleted
+        JSONObject msg = new JSONObject();
+
+        msg.put("MessageID", "0838884567");
+        msg.put("Recipient", "+27838884567");
+        msg.put("Message", "It is dinner time!");
+        msg.put("Hash", "34:4:ITTIME");
+
+        // Seed the system records by adding the message to both structural storage systems
+        Message.getStoredMessageObjects().add(msg);
+        Message.getStoredMessages().add("It is dinner time!");
+
+        // Execute the deletion method utilizing the target unique hash string
+        String result =
+                Message.deleteByMessageHash("34:4:ITTIME");
+
+        // Verify that the output string confirms a successful deletion process
+        assertTrue(result.contains("Message deleted successfully"));
+    }
+
+    // =====================================================
+    // PART 3 TEST 6
+    // Display Message Report
+    // =====================================================
+
+    @Test
+    public void testDisplayReport() {
+        // Reset the message state before running the test
+        Message.resetAll();
+
+        // Populate each individual parallel tracking list with corresponding message metadata
+        Message.getSentMessages().add("Did you get the cake?");
+        Message.getMessageHashes().add("12:1:DIDCAKE");
+        Message.getRecipientList().add("+27834557896");
+        Message.getMessageIDs().add("1000000001");
+
+        // Generate the formatted summary or report of all messages currently tracked
+        String report = Message.printMessages();
+
+        // Verify the actual report data
+        assertTrue(report.contains("12:1:DIDCAKE"));
+        assertTrue(report.contains("+27834557896"));
+        assertTrue(report.contains("Did you get the cake?"));
+        assertTrue(report.contains("1000000001"));
+
+        // Verify headings are present
+        assertTrue(report.contains("Message Hash"));
+        assertTrue(report.contains("Recipient"));
+        assertTrue(report.contains("Message"));
+        assertTrue(report.contains("Message ID"));
     }
 }
