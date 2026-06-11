@@ -1,4 +1,4 @@
-# Chat Application - Part 2
+# Chat Application - Part 2 & 3
 
 ---
 
@@ -28,11 +28,25 @@
 - Must and should be an **South African international code(+27...)**.
 - Must contain exactly **12 characters**.
 
+### Local JSON Database Persistence:
+- Must convert message objects into dynamic JSON elements and serialize them to local file storage (Message.json) in append mode.
+- Must read and rebuild runtime parallel lists line-by-line automatically at application startup to avoid session data loss.
+
+### Advanced Message Querying & Data Lifecycle Management:
+- Must search across all active structures using multi-criteria options such as locating specific message detail blocks by Message ID or listing multiple records by Recipient.
+- Must search live arrays via a target unique cryptographic hash string and successfully isolate and drop matching indices to support precise message deletions.
+
+### Metric Evaluation & Activity Auditing Reports:
+- Must scan stored records to compute string character lengths, isolating and reporting the absolute longest text file entries back to the console interface.
+- Must process session parallel arrays dynamically to render structured operational audit reports containing complete lifecycle summaries (Hashes, IDs, Recipients, Body texts, and System states).
+
 ---
 
 ## Difficulties Faced
 - I struggled with writing the syntax in the IDE as I have not mastered **arrays** yet.
 - The "**MessageTest**" struggles were extreme as I had to repeat the code over 10 times to make it work and give the desired results.
 - Adding on **MainApp**, the array syntax proved to be difficult as the array had been looping infinitely until the desired result was achieved.
+- Managing multiple parallel static lists across runtime instances created tracking mismatches, which required designing a strict sequential index synchronizer during add and remove operations.
+- Handling external file streams within JSON serialization structures introduced exceptions that required robust error handling boundaries to avoid application crashes when reading missing databases.
   
 ---
