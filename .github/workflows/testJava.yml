@@ -4,7 +4,7 @@ on:
   push:
     branches: 
         - "main"
-        - "Part2-SendMessages" 
+        - "Part2-3-SendMessages-StoreData-DisplayReport" 
   pull_request:
     branches: 
         - "main"
