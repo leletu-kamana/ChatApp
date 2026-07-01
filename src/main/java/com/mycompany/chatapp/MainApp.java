@@ -5,6 +5,7 @@
 package com.mycompany.chatapp;
 import com.mycompany.chatapp.Message;
 import com.mycompany.chatapp.Login;
+import com.mycompany.chatapp.Message;
 import static com.mycompany.chatapp.Message.getLoadStoredMessages;
 /**
  *
